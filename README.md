@@ -1,4 +1,4 @@
-# school.flow
+# Кроки
 
 ## Project setup
 ```
