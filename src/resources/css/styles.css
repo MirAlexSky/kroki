@@ -1,0 +1,48 @@
+
+:root {
+    --blue: #0B61A4;
+    --yellow: #FFBF00;
+    --red: #FF4900;
+    --dark-blue: #033E6B;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+@font-face {
+    font-family: 'Comfortaa';
+    src: url('../fonts/Comfortaa-Light.ttf');
+}
+
+.btn {
+    min-width: 40px;
+    min-height: 20px;
+    background-color: var(--yellow);
+    border: 1px solid #727272;
+    border-radius: 5px;
+    font-family: Comfortaa, serif;
+    padding: 5px 10px;
+    cursor: pointer;
+    user-select: none;
+}
+
+button:active{
+    min-width: 38px;
+    min-height: 18px;
+    padding: 4px 9px;
+}
+
+.btn-round {
+    border-radius: 100%;
+    width: 50px;
+    height: 50px;
+}
+
+.btn-round:active {
+    border-radius: 100%;
+    width: 48px;
+    height: 48px;
+}
