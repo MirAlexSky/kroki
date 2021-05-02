@@ -4,7 +4,9 @@
     <div class="itemsContainer">
       <MenuItem v-for="(item, index) in menuItems" :key="index"
                 :item="item"
+                :selected="selectedItemId === item.id"
                 class="menuItem"
+                @menu-item:select="selectMenuItem"
       >
       </MenuItem>
     </div>
@@ -60,7 +62,7 @@ export default {
         },
       ],
 
-      currentContentId: 1
+      selectedItemId: 1,
     }
   },
 
@@ -69,7 +71,10 @@ export default {
   },
 
   methods: {
-
+    selectMenuItem(itemId) {
+      this.selectedItemId = itemId
+      this.$emit('menu-item:select', itemId)
+    }
   },
 }
 </script>

@@ -34,37 +34,40 @@ export default {
     return {
       files: [
         {
+          id: 1,
           name: 'Отчёт по работам.docx',
           type: 'file',
-          category: 'Классы'
+          category: 7
         },
         {
+          id: 2,
           name: 'Оценки, срез.docx',
           type: 'file',
-          category: 'Классы'
+          category: 7
         },
         {
+          id: 3,
           name: 'Заявка на экскурсию.docx',
           type: 'file',
-          category: 'Классы'
+          category: 7
         },
         {
+          id: 4,
           name: 'Учебник по истории 7 класс.pdf',
           type: 'file',
-          category: 'Субботник'
+          category: 3
         },
         {
+          id: 5,
           name: 'Заявление на увольнение.docx',
           type: 'file',
-          category: 'Субботник'
+          category: 3
         },
       ],
 
       fileInputElement: undefined,
 
       uploadedFiles: [],
-
-      selectedCategory: 'Классы',
     }
   },
 
@@ -74,17 +77,19 @@ export default {
 
   computed: {
     activeCategory() {
-      return this.selectedCategory
+      return this.selectedMenuItem.id
     },
 
     filteredFiles() {
-      return this.files.filter((file) => file.category === this.selectedCategory)
+      return this.files.filter((file) => file.category === this.activeCategory)
     },
 
     selectedTags() {
       return []
     }
   },
+
+  inject: ['selectedMenuItem'],
 
   methods: {
     initFileLoader() {

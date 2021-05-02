@@ -1,6 +1,7 @@
 <template>
   <div class="appContainer">
-    <MenuComponent class="MenuComponent"></MenuComponent>
+    <MenuComponent class="MenuComponent" @menu-item:select="selectMenuItem">
+    </MenuComponent>
     <div class="right-side">
       <HeaderComponent class="header-component" @toggle-open="toggleHeader" :class="{'header-open': isHeaderOpen}"></HeaderComponent>
       <ContentComponent class="content-component"></ContentComponent>
@@ -23,11 +24,20 @@ export default {
   data() {
     return {
       isHeaderOpen: false,
+      selectedMenuItem: {id: 1},
     }
   },
   methods: {
     toggleHeader(e) {
       this.isHeaderOpen = e;
+    },
+    selectMenuItem(itemId) {
+      this.selectedMenuItem.id = itemId
+    }
+  },
+  provide() {
+    return {
+      selectedMenuItem: this.selectedMenuItem
     }
   }
 }

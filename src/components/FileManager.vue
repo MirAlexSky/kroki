@@ -1,8 +1,8 @@
 <template>
   <div class="files-wrap">
     <TreeNode
-        v-for="(file, index) in files"
-        :key="index"
+        v-for="file in files"
+        :key="file.id"
         :node.sync="file"
     >
     </TreeNode>

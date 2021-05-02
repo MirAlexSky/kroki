@@ -3,6 +3,7 @@
     <div class="item"
          @click="openToggle"
          :style="{'padding-left': paddingLeft}"
+         :class="{selected: selected}"
     >
       {{ item.name }}
       <div class="image-wrap" v-if="hasChildren">
@@ -19,6 +20,8 @@
       <div class="child-max-height">
         <MenuItem v-for="(child, index) in item.children" :key="index"
                   :item="child"
+                  :level="level + 1"
+                  @menu-item:select="selectMenuItem"
                   class="child-item"
         ></MenuItem>
       </div>
@@ -37,6 +40,10 @@ export default {
     level: {
       require: false,
       default: 0,
+    },
+    selected: {
+      require: true,
+      type: Boolean,
     }
   },
 
@@ -71,7 +78,13 @@ export default {
     openToggle() {
       if (this.hasChildren) {
         this.isOpen = !this.isOpen;
+      } else {
+        this.selectMenuItem()
       }
+    },
+
+    selectMenuItem(itemId) {
+      this.$emit('menu-item:select', itemId ?? this.item.id)
     },
 
     getAllChildren(menuItem) {
@@ -142,6 +155,10 @@ export default {
 
   .child-wrap-open {
 
+  }
+
+  .selected {
+    background-color: #eaeaea;
   }
 
 </style>
