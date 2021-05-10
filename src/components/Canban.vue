@@ -1,6 +1,6 @@
 <template>
   <div class="canbanContainer">
-    Here will be canban
+<!--    Here will be canban-->
   </div>
 </template>
 
