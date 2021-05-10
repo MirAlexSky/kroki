@@ -5,3 +5,6 @@ RewriteRule ^(.*)$ dist/index.html [L]
 
 RewriteCond %{REQUEST_URI} ^/(css|js|img|fonts)
 RewriteRule ^(.*)$ dist/$1 [L]
+
+RewriteCond %{REQUEST_URI} ^/api
+RewriteRule ^.*$ api/index.php [L]

@@ -1,0 +1,26 @@
+{
+    "name": "guber/kroki",
+    "require": {
+        "symfony/filesystem": "^5.2",
+        "symfony/error-handler": "^5.2",
+        "symfony/http-foundation": "^5.2",
+        "symfony/http-kernel": "^5.2",
+        "symfony/routing": "^5.2",
+        "symfony/var-dumper": "^5.2",
+        "symfony/form": "^5.2",
+        "symfony/orm-pack": "^2.1",
+        "symfony/yaml": "^5.2",
+        "symfony/expression-language": "^5.2",
+        "symfony/validator": "^5.2",
+        "doctrine/annotations": "^1.12"
+    },
+    "require-dev": {
+        "symfony/maker-bundle": "^1.31"
+    },
+    "authors": [
+        {
+            "name": "miralexsky",
+            "email": "miralexsky@gmail.com"
+        }
+    ]
+}

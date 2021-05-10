@@ -77,10 +77,10 @@ export default {
     this.initFileLoader();
   },
 
-  computed: {
-  },
+  computed: {},
 
   methods: {
+
     initFileLoader() {
       this.fileInputElement = document.querySelector('.input-upload')
       this.fileInputElement.addEventListener('change', this.uploadFile)
@@ -109,16 +109,16 @@ export default {
           let author = this.uploadedFile.author.split(',').map((_author) => _author.trim())
           let date = new Date()
 
-          this.uploadedFile.name = file.name
-          this.uploadedFile.url = url
+          if (!this.uploadedFile.name.length)
+            this.uploadedFile.name = file.name
 
           this.lastFiles.unshift(this.uploadedFile)
 
           // this.$emit('files:update', this.uploadedFile) todo дописать vuex
+          this.serverUploadFile()
         }
       }
     },
-
 
 
     isValidFileType(file) {
@@ -146,6 +146,26 @@ export default {
       }
 
       return size + ' ' + sizeNames[sizeLevel]
+    },
+
+    serverUploadFile() {
+      console.log('start uploading')
+      let file = this.fileInputElement.files[0]
+      let formData = new FormData();
+
+      formData.append('file', file)
+      formData.append('fileName', this.uploadedFile.name)
+      formData.append('author', this.uploadedFile.author)
+      formData.append('categories', this.uploadedFile.categories)
+
+      console.log('prefetch')
+
+      let result = fetch('api/upload-file', {
+        method: 'POST',
+        body: formData,
+      })
+
+      console.log(result)
     }
   }
 }
@@ -247,6 +267,6 @@ export default {
 .no-resent-files {
   font-size: 12pt;
   color: grey;
- }
+}
 
 </style>
