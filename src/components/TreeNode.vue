@@ -1,6 +1,12 @@
 <template>
   <div class="node-wrap">
-    <input v-if="lNode" class="node-input" type="text" v-model="lNode.name">
+    <a :href="node.url" target="_blank">
+      <input v-if="lNode" class="node-input" type="text" v-model="lNode.name" disabled>
+    </a>
+    <div class="param-wrap">
+      <div class="node-category" v-if="node.category">{{node.category}}</div>
+      <div class="node-author" v-if="node.author">{{node.author}}</div>
+    </div>
   </div>
 </template>
 
@@ -10,6 +16,10 @@ export default {
   props: {
     node: {
       required: true,
+    },
+    edit: {
+      required: false,
+      default: true,
     }
   },
 
@@ -37,8 +47,10 @@ export default {
 
 .node-wrap {
   cursor: pointer;
-  border-left: 1px solid var(--blue);
+  border-left: 3px solid var(--dark-blue);
+  border-radius: 8px;
   padding: 0 0 0 10px;
+  margin: 0 0 12px 0;
   max-width: 500px;
 }
 
@@ -48,13 +60,13 @@ export default {
 
 .node-input {
   font-size: 14pt;
-  border: none;
-  padding: 3px;
+  padding: 3px 3px 0 3px;
   cursor: pointer;
   background-color: transparent;
   outline: none;
   display: inline-block;
   width: 100%;
+  color: black;
 }
 
 .node-input:active {
@@ -63,6 +75,26 @@ export default {
 
 .node-input:focus {
   background-color: #f1f1f1;
+}
+
+.param-wrap {
+  display: flex;
+}
+
+.node-category {
+  font-size: 9pt;
+  border: 2px solid #d4d4d4;
+  border-radius: 20px;
+  padding: 3px;
+  margin: 0 5px 0;
+}
+
+.node-author {
+  font-size: 9pt;
+  border: 2px solid #d4d4d4;
+  border-radius: 20px;
+  padding: 3px;
+  margin: 0 5px 0;
 }
 
 </style>

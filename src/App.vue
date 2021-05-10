@@ -1,6 +1,9 @@
 <template>
   <div class="appContainer">
-    <MenuComponent class="MenuComponent" @menu-item:select="selectMenuItem">
+    <MenuComponent class="MenuComponent"
+                   @menu-item:select="selectMenuItem"
+                   @width:change="widthChange"
+                   :style="sideMenuStyle">
     </MenuComponent>
     <div class="right-side">
       <HeaderComponent class="header-component" @toggle-open="toggleHeader" :class="{'header-open': isHeaderOpen}"></HeaderComponent>
@@ -24,15 +27,30 @@ export default {
   data() {
     return {
       isHeaderOpen: false,
-      selectedMenuItem: {id: 1},
+      selectedMenuItem: {name: 'search'},
+      menuWidth: 200,
     }
   },
+
+  computed: {
+    sideMenuStyle() {
+      return {
+        width: (this.menuWidth < 130 ? 50 : this.menuWidth) + 'px'
+      }
+    }
+  },
+
   methods: {
     toggleHeader(e) {
       this.isHeaderOpen = e;
     },
-    selectMenuItem(itemId) {
-      this.selectedMenuItem.id = itemId
+
+    selectMenuItem(itemName) {
+      this.selectedMenuItem.name = itemName
+    },
+
+    widthChange(widthIncrement) {
+      this.menuWidth += widthIncrement
     }
   },
   provide() {
@@ -47,6 +65,7 @@ export default {
 <style>
 
 
+
 .appContainer {
   font-family: Comfortaa, serif;
   -webkit-font-smoothing: antialiased;
@@ -57,10 +76,12 @@ export default {
   display: flex;
   justify-content: start;
   height: 100vh;
+  background: repeating-linear-gradient(transparent, transparent 20px, rgba(128, 128, 128, 0.38) 22px),
+  repeating-linear-gradient(90deg, transparent, transparent 20px, rgba(128, 128, 128, 0.28) 22px);
 }
 
 .MenuComponent {
-  width: 200px;
+  ;
 }
 
 .right-side {

@@ -1,6 +1,6 @@
 <template>
   <div class="header-container">
-    <div class="options">
+    <div class="options" @click="openCategoryEditor">
       Настройки
     </div>
     <div class="canban">
@@ -33,6 +33,10 @@ export default {
     toggleOpen() {
       this.isToggleOpen = !this.isToggleOpen;
       return this.$emit('toggle-open', this.isToggleOpen);
+    },
+
+    openCategoryEditor() {
+
     }
   }
 }

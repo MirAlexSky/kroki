@@ -115,7 +115,7 @@ export default {
     flex-direction: row;
     cursor: pointer;
     user-select: none;
-    padding: 5px 0;
+    padding: 10px 0;
     height: 100%;
   }
 
