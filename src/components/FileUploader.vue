@@ -21,6 +21,9 @@
       <p>
         <input type="text" name="file-author" placeholder="Автор" v-model="uploadedFile.author">
       </p>
+      <p>
+        <input type="text" name="file-date" placeholder="Дата создания" v-model="uploadedFile.date">
+      </p>
     </div>
     <hr class="hr">
     <div class="resent-files">
@@ -68,13 +71,14 @@ export default {
         name: '',
         categories: '',
         author: '',
-        url: '',
+        date: '',
       },
     }
   },
 
   mounted() {
     this.initFileLoader();
+    this.initDate();
   },
 
   computed: {},
@@ -91,6 +95,7 @@ export default {
     },
 
     uploadFile() {
+      console.log('test')
       let files = this.fileInputElement.files
 
       if (files.length === 0) {
@@ -107,7 +112,6 @@ export default {
 
           let categories = this.uploadedFile.categories.split(',').map((_category) => _category.trim())
           let author = this.uploadedFile.author.split(',').map((_author) => _author.trim())
-          let date = new Date()
 
           if (!this.uploadedFile.name.length)
             this.uploadedFile.name = file.name
@@ -115,6 +119,7 @@ export default {
           this.lastFiles.unshift(this.uploadedFile)
 
           // this.$emit('files:update', this.uploadedFile) todo дописать vuex
+          console.log('testing')
           this.serverUploadFile()
         }
       }
@@ -157,6 +162,7 @@ export default {
       formData.append('fileName', this.uploadedFile.name)
       formData.append('author', this.uploadedFile.author)
       formData.append('categories', this.uploadedFile.categories)
+      formData.append('date', this.uploadedFile.date)
 
       console.log('prefetch')
 
@@ -166,8 +172,12 @@ export default {
       })
 
       console.log(result)
+    },
+
+    initDate() {
+      this.uploadedFile.date = new Date().toLocaleDateString()
     }
-  }
+  },
 }
 </script>
 

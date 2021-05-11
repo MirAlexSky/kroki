@@ -1,10 +1,13 @@
 <?php
-require('../vendor/autoload.php');
+require_once '../vendor/autoload.php';
 
 $get = $_GET;
-dump($_SERVER['QUERY_STRING']);
+echo $_SERVER['QUERY_STRING'];
+die('lol');
 $method = $_SERVER['REQUEST_METHOD'];
 $query = $_SERVER['QUERY_STRING'];
 $request = $_SERVER['REQUEST_URI'];
+
+?>
 
 
