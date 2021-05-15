@@ -14,7 +14,7 @@ class File
             $id = sizeof($rows);
 
             $newFile = [$id, $file['name'], $file['path'], $file['public_path'], $file['author'], $file['categories'], $file['date']];
-            $row = implode($this->sep, $newFile) . "\n";
+            $row = "\n" . implode($this->sep, $newFile);
 
             file_put_contents('./filesUploaded.csv', $row, FILE_APPEND);
             return true;
