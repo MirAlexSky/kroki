@@ -1,4 +1,5 @@
 RewriteEngine On
+Options -indexes
 
 RewriteCond %{REQUEST_URI} ^/$
 RewriteRule ^(.*)$ dist/index.html [L]
@@ -8,3 +9,13 @@ RewriteRule ^(.*)$ dist/$1 [L]
 
 RewriteCond %{REQUEST_URI} ^/api
 RewriteRule ^.*$ api/index.php [L]
+
+RewriteCond %{REQUEST_URI} ^/public
+RewriteCond %{REQUEST_URI} !-f
+RewriteRule ^(.*)$ $1 [L]
+
+RewriteCond %{REQUEST_URI} -d
+RewriteRule ^(.*)$ dist/index.html [L]
+
+
+ErrorDocument 404 /public/404.html

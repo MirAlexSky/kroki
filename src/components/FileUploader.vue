@@ -16,13 +16,13 @@
         <input type="text" name="file-name" placeholder="Имя файла" v-model="uploadedFile.name">
       </p>
       <p>
-        <input type="text" name="file-categories" placeholder="Категории" v-model="uploadedFile.category">
+        <input type="text" name="file-categories" placeholder="Категории" v-model="categories">
       </p>
       <p>
-        <input type="text" name="file-author" placeholder="Автор" v-model="uploadedFile.author">
+        <input type="text" name="file-author" placeholder="Автор" v-model="author">
       </p>
       <p>
-        <input type="text" name="file-date" placeholder="Дата создания" v-model="uploadedFile.date">
+        <input type="text" name="file-date" placeholder="Дата создания" v-model="date">
       </p>
     </div>
     <hr class="hr">
@@ -30,9 +30,9 @@
       <p class="resent-title">
         Последние документы
       </p>
-      <div class="no-resent-files" v-if="!lastFiles.length">... у вас ещё нет загруженных файлов</div>
+      <div class="no-resent-files" v-show="!Object.entries(lastFiles).length">... у вас ещё нет загруженных файлов</div>
       <TreeNode
-          v-for="file in lastFiles"
+          v-for="file of lastFiles"
           :key="file.id"
           :node.sync="file"
       >
@@ -52,33 +52,30 @@ export default {
 
   data() {
     return {
-      lastFiles: [
-        {
-          id: 1,
-          name: 'Отчёт по работам.docx',
-          type: 'file',
-          category: 'Школа'
-        },
-        {
-          id: 2,
-          name: 'Оценки, срез.docx',
-          type: 'file',
-          category: 'Собрание'
-        },
-      ],
+      lastFiles: {},
+
       fileInputElement: undefined,
+
       uploadedFile: {
         name: '',
         categories: '',
         author: '',
         date: '',
       },
+
+      categories: '',
+      author: '',
+      date: '',
+
     }
   },
+
+  inject: ['originUrl'],
 
   mounted() {
     this.initFileLoader();
     this.initDate();
+    this.serverUpdateFiles();
   },
 
   computed: {},
@@ -95,7 +92,6 @@ export default {
     },
 
     uploadFile() {
-      console.log('test')
       let files = this.fileInputElement.files
 
       if (files.length === 0) {
@@ -108,19 +104,23 @@ export default {
             return
           }
 
-          let url = window.URL.createObjectURL(file);
-
-          let categories = this.uploadedFile.categories.split(',').map((_category) => _category.trim())
-          let author = this.uploadedFile.author.split(',').map((_author) => _author.trim())
+          this.uploadedFile.categories = this.categories.split(',').map((_category) => _category.trim())
+          this.uploadedFile.author = this.author.split(',').map((_author) => _author.trim())
 
           if (!this.uploadedFile.name.length)
             this.uploadedFile.name = file.name
 
-          this.lastFiles.unshift(this.uploadedFile)
-
-          // this.$emit('files:update', this.uploadedFile) todo дописать vuex
-          console.log('testing')
-          this.serverUploadFile()
+          this.serverUploadFile().then(function(responseJson) {
+            if (responseJson.ok)
+              return responseJson.json()
+          }).then((response) => {
+            if (response.status === 'success') {
+              this.uploadedFile.url = response.data.url
+              this.serverUpdateFiles()
+            } else {
+              console.log('Something went wrong')
+            }
+          })
         }
       }
     },
@@ -154,7 +154,6 @@ export default {
     },
 
     serverUploadFile() {
-      console.log('start uploading')
       let file = this.fileInputElement.files[0]
       let formData = new FormData();
 
@@ -164,18 +163,30 @@ export default {
       formData.append('categories', this.uploadedFile.categories)
       formData.append('date', this.uploadedFile.date)
 
-      console.log('prefetch')
-
-      let result = fetch('api/upload-file', {
+      let result = fetch(this.originUrl + '/api/upload-file', {
         method: 'POST',
         body: formData,
       })
 
-      console.log(result)
+      return result
     },
 
     initDate() {
       this.uploadedFile.date = new Date().toLocaleDateString()
+    },
+
+    serverUpdateFiles() {
+
+      fetch(this.originUrl + '/api/files').then((response) => {
+        if (response.ok)
+          return response.json();
+        }).then((response) => {
+        if (response.status === 'success') {
+          this.lastFiles = response.data
+        } else {
+          alert('api/files fail, ' + response.message)
+        }
+      })
     }
   },
 }

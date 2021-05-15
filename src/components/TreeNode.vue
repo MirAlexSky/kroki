@@ -4,7 +4,7 @@
       <input v-if="lNode" class="node-input" type="text" v-model="lNode.name" disabled>
     </a>
     <div class="param-wrap">
-      <div class="node-category" v-if="node.category">{{node.category}}</div>
+      <div class="node-category" v-if="node.categories">{{node.categories}}</div>
       <div class="node-author" v-if="node.author">{{node.author}}</div>
     </div>
   </div>

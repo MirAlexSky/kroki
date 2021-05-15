@@ -12,7 +12,8 @@
         "symfony/yaml": "^5.2",
         "symfony/expression-language": "^5.2",
         "symfony/validator": "^5.2",
-        "doctrine/annotations": "^1.12"
+        "doctrine/annotations": "^1.12",
+      "ext-json": "*"
     },
     "require-dev": {
         "symfony/maker-bundle": "^1.31"

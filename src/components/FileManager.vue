@@ -12,7 +12,7 @@
           type="text"
           class="search-input"
           placeholder="По категориям"
-          v-model="filter.category"
+          v-model="filter.categories"
       >
       <input
           type="text"
@@ -39,70 +39,43 @@ export default {
     TreeNode,
   },
 
+  inject: ['originUrl'],
+
   data() {
     return {
-      files: [
-        {
-          id: 1,
-          name: 'Отчёт по работам.docx',
-          type: 'file',
-          category: 'Школа'
-        },
-        {
-          id: 2,
-          name: 'Оценки, срез.docx',
-          type: 'file',
-          category: 'Школа'
-        },
-        {
-          id: 3,
-          name: 'Заявка на экскурсию.docx',
-          type: 'file',
-          category: 'Школа'
-        },
-        {
-          id: 4,
-          name: 'Учебник по истории 7 класс.pdf',
-          type: 'file',
-          category: 'Соборание',
-
-        },
-        {
-          id: 5,
-          name: 'Заявление на увольнение.docx',
-          type: 'file',
-          category: 'Личное',
-          author: 'Е.Н. Синягина',
-        },
-      ],
+      files: {},
       filter: {
         name: '',
-        category: '',
+        categories: '',
         author: '',
       }
     }
   },
 
   mounted() {
+    this.serverUpdateFiles();
   },
 
   computed: {
     filteredFiles() {
-      return this.files.filter((file) => {
+      let ids = Object.keys(this.files).filter((id) => {
+        let file = this.files[id]
 
         for (let prop of this.notEmpty(Object.keys(this.filter))) {
 
           if (Object.hasOwnProperty.call(file, prop)) {
 
-              if (file[prop].toString().toLowerCase().indexOf(this.filter[prop].toString().toLowerCase()) === -1) {
-                return false
-              }
+            if (file[prop].toString().toLowerCase().indexOf(this.filter[prop].toString().toLowerCase()) === -1) {
+              return false
+            }
           } else {
             return false
           }
         }
         return true
       })
+
+      return ids.map((id) => this.files[id])
     },
   }
   ,
@@ -110,6 +83,20 @@ export default {
   methods: {
     notEmpty(iterable) {
       return iterable.filter((item) => this.filter[item].length > 0)
+    },
+
+    serverUpdateFiles() {
+
+      fetch(this.originUrl + '/api/files').then((response) => {
+        if (response.ok)
+          return response.json();
+      }).then((response) => {
+        if (response.status === 'success') {
+          this.files = response.data
+        } else {
+          alert('api/files fail, ' + response.message)
+        }
+      })
     }
   }
 }

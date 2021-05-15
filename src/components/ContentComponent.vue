@@ -3,7 +3,6 @@
     <FileManager v-show="activeMenuItem === 'search'"></FileManager>
     <FileUploader v-show="activeMenuItem === 'upload'"></FileUploader>
     <CategoryController v-show="activeMenuItem === 'category'"></CategoryController>
-    <FileEditor v-sho=""></FileEditor>
   </div>
 </template>
 
@@ -19,7 +18,6 @@ export default {
     CategoryController,
     FileManager,
     FileUploader,
-    FileEditor,
   },
 
   data() {

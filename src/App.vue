@@ -55,7 +55,8 @@ export default {
   },
   provide() {
     return {
-      selectedMenuItem: this.selectedMenuItem
+      selectedMenuItem: this.selectedMenuItem,
+      originUrl: process.env.NODE_ENV === 'development' ? "http://kroki.localhost" : ""
     }
   }
 }
